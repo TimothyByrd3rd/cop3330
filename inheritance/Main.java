@@ -1,62 +1,43 @@
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.FileNotFoundException;
-
 public class Main {
-    
-    public static void main(String[] args) throws FileNotFoundException {
-        University u = new University("UCF");
-        
-        //Scanner stdin = new Scanner(System.in);
-        Scanner stdin = new Scanner( new File("data2.txt") );
-        
-        int studentCount = stdin.nextInt();
-        stdin.nextLine();
-        
-        for(int i = 0; i < studentCount; i++) {
-            String name = stdin.nextLine();
-            
-            // read the type of student
-            String type = stdin.next();
-            
-            String info = stdin.nextLine();
-            
-            // if grad student, then extract thesis topic
-            if( type.equals("Graduate") ) {
-                String topic = info;
-                System.out.println("Grad " + topic);
-            }
-            // otherwise, extract year level
-            else {
-                int yearLevel = Integer.parseInt(info.trim());
-                System.out.println("Undergrade " + yearLevel);
-            }
-            
-            int courseCount = stdin.nextInt();
-            stdin.nextLine();
-            
-            //System.out.printf("%s %d\n", name, courseCount);
-            //Student s = new Student(name);
-            
-            for(int j = 0; j < courseCount; j++) {
-                String code = stdin.next();
-                int credit = stdin.nextInt();
-                String title = stdin.nextLine().trim();
-                
-                //System.out.printf("\t%s %d %s\n", code, credit, title);
-                Course c = new Course(code, title, credit);
-                
-                //s.registerCourse( c );
-            }
-            
-            //u.addStudent( s );
-        }
-        
-        //return u;
-        
+
+    public static void main(String[] args) {
+
+        // Undergrad student
+        UndergraduateStudent us = new UndergraduateStudent("Alice Smith");
+        us.setYearLevel(1);
+        us.registerCourse(new Course("COP3502", "Computer Science I", 3));
+
+        System.out.println("=== Undergraduate ===");
+        us.introduce();
+        System.out.println();
+
+        // Convert to honors
+        HonorsStudent hs1 = new HonorsStudent(us);
+        hs1.setThesisTitle("AI in Education");
+        hs1.addCommitteeMember("Dr. Johnson");
+        hs1.addCommitteeMember("Dr. Lee");
+
+        System.out.println("=== Honors Student 1 ===");
+        System.out.println("Name: " + hs1.getName());
+        System.out.println("Thesis: " + hs1.getThesisTitle());
+        System.out.println("Committee:");
+        hs1.printCommittee();
+        System.out.println("Count: " + hs1.getCommitteeCount());
+        System.out.printf("Tuition Due: %.2f\n", hs1.getTuitionDue());
+
+        // Copy
+        HonorsStudent hs2 = new HonorsStudent(hs1);
+        hs2.addCommitteeMember("Dr. Patel");
+        hs2.addCommitteeMember("Dr. Brown"); // ignored
+        hs1.setThesisTitle("Updated Thesis Title");
+
+        System.out.println();
+        System.out.println("=== Honors Student 2 (Copy) ===");
+        System.out.println("Name: " + hs2.getName());
+        System.out.println("Thesis: " + hs2.getThesisTitle());
+        System.out.println("Committee:");
+        hs2.printCommittee();
+        System.out.println("Count: " + hs2.getCommitteeCount());
+        System.out.printf("Tuition Due: %.2f\n", hs2.getTuitionDue());
     }
-    
 }
-        
-        

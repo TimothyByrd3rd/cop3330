@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 public class Main {
     
     public static void main(String[] args) throws FileNotFoundException {
-        University u = University.loadFromFile("data2.txt");
+        University u = University.loadFromFile("polymorphism/data2.txt");
         
         u.printStudentData();
     }
